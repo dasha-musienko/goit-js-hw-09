@@ -15,6 +15,14 @@ function submitBtnClickHandler(evt) {
   const step = Number(refs.stepInput.value);
   const amount = Number(refs.amountInput.value);
 
+  
+  if (delay < 0 || step < 0 || amount <= 0 ) {
+    validatesForm(delay, step, amount)
+    clearsInputs();
+    return
+  }
+
+
   for (let position = 1; position <= amount; position += 1) {
 
 
@@ -27,7 +35,11 @@ function submitBtnClickHandler(evt) {
     });
   
     delay += step
-} }
+}
+
+setTimeout(clearsInputs, delay)
+
+}
 
 
 function createPromise(position, delay) {
@@ -42,4 +54,22 @@ function createPromise(position, delay) {
       }
     }, delay);
   });
+}
+
+function validatesForm(delay, step, amount) {
+  if (delay < 0) {
+    Notiflix.Notify.warning('Enter number equal or greater than 0');
+  }
+  if (step < 0) {
+    Notiflix.Notify.warning('Enter number equal or greater than 0');
+  }
+  if (amount <= 0) {
+    Notiflix.Notify.warning('Enter number greater than 0');
+  }
+}
+
+function clearsInputs () {
+  refs.delayInput.value = "";
+  refs.stepInput.value = "";
+  refs.amountInput.value = "";
 }
